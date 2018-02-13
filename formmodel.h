@@ -43,6 +43,8 @@ public:
     int rowCount(const QModelIndex &parent=QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role=Qt::DisplayRole) const;
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role);
+    void changeColor(int numGrid,int indexTile,QColor colore);
+
 private:
 
     QList<Form> dashboard;

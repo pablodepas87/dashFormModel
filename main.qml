@@ -42,7 +42,10 @@ Window {
                         }
                         MouseArea{
                           anchors.fill: parent
-                          onClicked: { grid[index].name="pippo"}
+                          onClicked: {
+                              nameForm="pippo"
+                              grid[index].name="pippo";
+                          }
                         }
                     }
 

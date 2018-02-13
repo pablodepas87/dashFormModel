@@ -1,6 +1,8 @@
 #include "formmodel.h"
 
 #include <QColor>
+#include <QDebug>
+
 
 FormModel::FormModel(QObject *parent):QAbstractListModel(parent)
 {
@@ -14,6 +16,7 @@ FormModel::FormModel(QObject *parent):QAbstractListModel(parent)
         }
         dashboard<< form;
     }
+    changeColor(0,1,QColor ("#ffffff"));
 }
 
 
@@ -50,16 +53,39 @@ bool FormModel::setData(const QModelIndex &index, const QVariant &value, int rol
         return false;
         }
 
-      if (role == NameForm )
-       {
-            dashboard[index.row()].nameForm=  value.toString();
-      }
-      if(role==Grid){
-           dashboard[index.row()].grid.clear();
-          dashboard[index.row()].grid <<QVariant::fromValue(value);
+    switch (role) {
+      case NameForm:
+        dashboard[index.row()].nameForm=  value.toString();
+        emit dataChanged(index,index);
+        break;
+      case Grid:
+            dashboard[index.row()].grid.clear();
+            dashboard[index.row()].grid <<QVariant::fromValue(value);
+            emit dataChanged(index,index);
+            break;
+      default:
+            break;
+    }
 
-      }
+    return true;
 
-      emit dataChanged(index, index);
-      return true;
+}
+
+void FormModel::changeColor(int numGrid, int indexTile, QColor colore)
+{
+
+   Form temp= dashboard[numGrid];
+   temp.nameForm="pippi";
+   dashboard[numGrid]=temp;
+
+   /*
+    per modificare un elemento della griglia che è un QVariantList devo usare .value
+    il canConvert è solo una verifica
+   */
+   qDebug()<< temp.grid[0].canConvert<Tile>();
+   Tile tempT =  temp.grid[0].value<Tile>();
+
+   qDebug()<< QVariant::fromValue(temp.nameForm)<<tempT.name ;
+   beginResetModel();
+
 }
