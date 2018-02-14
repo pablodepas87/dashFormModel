@@ -83,17 +83,21 @@ void FormModel::changeColor(int numGrid, int indexTile, QString colore)
     il canConvert è solo una verifica
    */
 
- //  qDebug()<< formTemp.grid[0].canConvert<Tile>();
+   //  qDebug()<< formTemp.grid[0].canConvert<Tile>();            // can convert restituisce true/false 
    Tile tempT = dashboard[numGrid].grid[indexTile].value<Tile>(); // tile temporanea di lavoro
 
 
    //QColor pippo=colore.toRgb();  // converto il codice hex in rgb ovviamente colore deve essere di tipo QColor
 
    tempT.color=colore;
-   tempT={QString("FABIO"),QString(colore)};
+   tempT.name="fabio";
+   
+   //tempT={QString("FABIO"),QString(colore)}; // modo alternativo all'assegnazione singola per ogni property
 
    dashboard[numGrid].grid[indexTile] = QVariant::fromValue(tempT);
-   qDebug()<< QVariant::fromValue(formTemp.nameForm)<<tempT.name ;
-   beginResetModel();
+ 
+   // qDebug()<< QVariant::fromValue(formTemp.nameForm)<<tempT.name ;
+   
+   beginResetModel();         //resetta il modello e quindi lo forza a rivalutare tutta la lista di form del modello
 
 }
